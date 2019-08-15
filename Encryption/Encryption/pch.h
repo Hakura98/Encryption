@@ -9,5 +9,7 @@
 #include <string>
 #include <math.h>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
+using namespace chrono;

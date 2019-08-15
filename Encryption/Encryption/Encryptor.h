@@ -6,7 +6,7 @@ class Encryptor
 {
 public:
 	Encryptor();
-	Encryptor(string, int);
+	Encryptor(string, const int&);
 	~Encryptor();
 
 	//Functions:

@@ -7,7 +7,7 @@ Encryptor::Encryptor() : MODE(0)
 	
 }
 
-Encryptor::Encryptor(string input, const int mode) : MODE(mode)
+Encryptor::Encryptor(string input, const int& mode) : MODE(mode)
 {
 	text = input;
 }
