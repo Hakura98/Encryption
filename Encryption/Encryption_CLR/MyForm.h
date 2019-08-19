@@ -18,9 +18,6 @@ namespace EncryptionCLR {
 		MyForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -34,22 +31,14 @@ namespace EncryptionCLR {
 				delete components;
 			}
 		}
+
 	private: System::Windows::Forms::Button^  Decrypt;
 	private: System::Windows::Forms::Button^  Encyrpt;
 	protected:
 
-
+		String^ input;
 
 	private: System::Windows::Forms::TextBox^  textBox1;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -83,6 +72,7 @@ namespace EncryptionCLR {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(355, 175);
 			this->textBox1->TabIndex = 0;
+			this->textBox1->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			// 
 			// Encyrpt
 			// 
@@ -92,17 +82,18 @@ namespace EncryptionCLR {
 			this->Encyrpt->TabIndex = 1;
 			this->Encyrpt->Text = L"Encrypt";
 			this->Encyrpt->UseVisualStyleBackColor = true;
+			this->Encyrpt->Click += gcnew System::EventHandler(this, &MyForm::Encyrpt_Click);
 			// 
 			// Decrypt
 			// 
-			this->Decrypt->AccessibleName = L"Decrypt";
+			this->Decrypt->AccessibleName = L"";
 			this->Decrypt->Location = System::Drawing::Point(230, 264);
 			this->Decrypt->Name = L"Decrypt";
 			this->Decrypt->Size = System::Drawing::Size(75, 39);
 			this->Decrypt->TabIndex = 2;
 			this->Decrypt->Text = L"Decrypt";
 			this->Decrypt->UseVisualStyleBackColor = true;
-			this->Decrypt->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			this->Decrypt->Click += gcnew System::EventHandler(this, &MyForm::Decrypt_Click);
 			// 
 			// MyForm
 			// 
@@ -114,7 +105,7 @@ namespace EncryptionCLR {
 			this->Controls->Add(this->Decrypt);
 			this->Controls->Add(this->Encyrpt);
 			this->Controls->Add(this->textBox1);
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MyForm";
 			this->Text = L" Encryptor";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -123,13 +114,47 @@ namespace EncryptionCLR {
 
 		}
 #pragma endregion
+
+	private: System::String^ encryption(String^ text, bool mode) {
+		String^ result = "";
+		
+		unsigned int l = text->Length;
+		unsigned int row = (unsigned int)System::Math::Floor(System::Math::Sqrt(l));
+		unsigned int column = (unsigned int)System::Math::Ceiling(System::Math::Sqrt(l));
+
+		if (row * column < l)
+			row = column;
+
+		if (mode == false) {
+			int oldRow = row;
+			row = column;
+			column = oldRow;
+		}
+
+		for (size_t i = 0; i < column; i++)
+		{
+			for (size_t j = 0; i + j < l; j += column)
+			{
+				result += text[i + j];
+			}
+		}
+
+		return result;
+	}
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	}
+	private: System::Void Encyrpt_Click(System::Object^  sender, System::EventArgs^  e){
+		input = textBox1->Text;
 
+		textBox1->Text = encryption(input, true);
 	}
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
-	private: System::Void bindingNavigatorMoveNextItem_Click(System::Object^  sender, System::EventArgs^  e) {
-	}
+	private: System::Void Decrypt_Click(System::Object^ sender, System::EventArgs^ e) {
+		input = textBox1->Text;
 
+		textBox1->Text = encryption(input, false);
+	}
+	private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+	}
 };
-}
+} 

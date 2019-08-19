@@ -1,10 +1,11 @@
 #include "MyForm.h"
 
-using namespace System::Windows::Forms;
+using namespace System;
+using namespace Windows::Forms;
 
 
-[System::STAThreadAttribute]
-int main(array <System::String^> ^ args) {
+[STAThreadAttribute]
+int main(array <String^> ^ args) {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	EncryptionCLR::MyForm form;
